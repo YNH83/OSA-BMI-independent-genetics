@@ -1,0 +1,11 @@
+# Project-local R library (run from the repository root; installs into tools/genetics_env/R_library)
+lib <- normalizePath("tools/genetics_env/R_library", mustWork = FALSE)
+dir.create(lib, recursive = TRUE, showWarnings = FALSE)
+.libPaths(c(lib, .libPaths()))
+options(repos = c(CRAN = "https://cloud.r-project.org", MRCIEU = "https://mrcieu.r-universe.dev"), Ncpus = 6)
+need <- c("lavaan", "gdata", "doParallel", "R.utils", "remotes", "coloc", "susieR", "qqman", "MendelianRandomization", "Rmpfr")
+miss <- need[!need %in% rownames(installed.packages())]
+if (length(miss)) install.packages(miss, lib = lib)
+if (!"TwoSampleMR" %in% rownames(installed.packages())) install.packages(c("ieugwasr", "TwoSampleMR"), lib = lib)
+if (!"GenomicSEM" %in% rownames(installed.packages())) remotes::install_github("GenomicSEM/GenomicSEM", lib = lib, upgrade = "never")
+for (p in c(need, "TwoSampleMR", "GenomicSEM")) cat(p, requireNamespace(p, quietly = TRUE), as.character(tryCatch(packageVersion(p), error = function(e) NA)), "\n")

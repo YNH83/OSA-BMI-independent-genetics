@@ -1,0 +1,11 @@
+data/
+ref/
+tools/
+derived/
+results/
+*.log
+__pycache__/
+.DS_Store
+*.gz
+*.rds
+*.RDS
